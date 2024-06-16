@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Virtual Calculator</h1>
+
+    <!-- Webcam and Calculator Display Section -->
+    <div class="container">
+        <div id="camera-container">
+            <video id="videoElement" autoplay playsinline></video>
+            <canvas id="canvasElement"></canvas>
+        </div>
+        <div id="calculator-container">
+            <div id="output">0</div>
+            <div id="buttons">
+                <button class="btn" onclick="buttonClick('7')">7</button>
+                <button class="btn" onclick="buttonClick('8')">8</button>
+                <button class="btn" onclick="buttonClick('9')">9</button>
+                <button class="btn" onclick="buttonClick('C')">C</button>
+                <button class="btn" onclick="buttonClick('4')">4</button>
+                <button class="btn" onclick="buttonClick('5')">5</button>
+                <button class="btn" onclick="buttonClick('6')">6</button>
+                <button class="btn" onclick="buttonClick('*')">*</button>
+                <button class="btn" onclick="buttonClick('1')">1</button>
+                <button class="btn" onclick="buttonClick('2')">2</button>
+                <button class="btn" onclick="buttonClick('3')">3</button>
+                <button class="btn" onclick="buttonClick('+')">+</button>
+                <button class="btn" onclick="buttonClick('0')">0</button>
+                <button class="btn" onclick="buttonClick('-')">-</button>
+                <button class="btn" onclick="buttonClick('/')">/</button>
+                <button class="btn" onclick="buttonClick('=')">=</button>
+                <button class="btn" onclick="buttonClick('(')">(</button>
+                <button class="btn" onclick="buttonClick(')')">)</button>
+                <button class="btn" onclick="buttonClick('.')">.</button>
+                <button class="btn" onclick="buttonClick('del')">del</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load OpenCV.js and main.js -->
+    <script async src="https://docs.opencv.org/master/opencv.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
+
+
