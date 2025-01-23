@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transport Booking</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <span class="material-icons" style="font-size: 36px;">directions_transit</span>
+      <h1>Transport Booking</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#booking">Book Now</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#login" onclick="openLoginForm()">Login</a></li>
+      </ul>
+      <div class="hamburger" onclick="toggleNav()">
+        <span class="material-icons">menu</span>
+      </div>
+    </nav>
+    <button id="theme-toggle" class="theme-toggle">
+      <span class="material-icons">dark_mode</span>
+    </button>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <h1>Book Your Journey with Ease</h1>
+    <p>Choose from buses, trains, ships, planes, and more!</p>
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search for transportation...">
+      <button onclick="searchTransport()">Search</button>
+    </div>
+    <button onclick="scrollToBooking()">Book Now</button>
+  </section>
+
+  <!-- Booking Options -->
+  <section id="booking" class="booking-options">
+    <!-- Options will be dynamically populated -->
+  </section>
+
+  <!-- Booking Form -->
+  <div id="booking-form" class="booking-form">
+    <h2>Book Your <span id="form-title"></span> Ticket</h2>
+    <form onsubmit="submitBooking(event)">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your name" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required>
+      <label for="date">Travel Date</label>
+      <input type="date" id="date" required>
+      <label for="price">Price</label>
+      <input type="text" id="price" readonly>
+      <button type="submit">Submit</button>
+      <button type="button" onclick="closeBookingForm()">Close</button>
+    </form>
+  </div>
+
+  <!-- Login Form -->
+  <div id="login-form" class="login-form">
+    <h2>Login</h2>
+    <form onsubmit="submitLogin(event)">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" required>
+      <button type="submit">Login</button>
+      <button type="button" onclick="closeLoginForm()">Close</button>
+    </form>
+  </div>
+
+  <!-- Booking History -->
+  <section id="history" class="history">
+    <h2>Booking History</h2>
+    <ul id="booking-list"></ul>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 Transport Booking. All rights reserved.</p>
+  </footer>
+
+  <!-- Loading Spinner -->
+  <div id="loading-spinner" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
