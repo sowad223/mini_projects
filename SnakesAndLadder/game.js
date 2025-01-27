@@ -2,10 +2,10 @@ let tog = 1;
 let rollingSound = new Audio('rpg-dice-rolling-95182.mp3');
 let winSound = new Audio('winharpsichord-39642.mp3');
 
-let p1sum = 0; // Human player
-let p2sum = 0; // AI player
+let p1sum = 0;
+let p2sum = 0;
 let p1Immune = false; // Track immunity for Player 1
-let p2Immune = false; // Track immunity for Player 2 (AI)
+let p2Immune = false; // Track immunity for Player 2
 
 // Define power-up squares
 const powerUps = {
@@ -19,7 +19,6 @@ const jumps = {
   1: 38, 4: 14, 8: 30, 21: 42, 28: 76, 32: 10, 36: 6, 48: 26, 50: 67, 62: 18, 71: 92, 80: 99, 88: 24, 95: 56, 97: 78
 };
 
-// Function to move a player
 function play(player, psum, correction, num) {
   let sum;
   if (psum === 'p1sum') {
@@ -65,7 +64,7 @@ function play(player, psum, correction, num) {
     if (player === 'p1') {
       alert("Red Won !!");
     } else if (player === 'p2') {
-      alert("Yellow (AI) Won !!");
+      alert("Yellow Won !!");
     }
     location.reload();
   } else {
@@ -130,8 +129,8 @@ function resetImmunity() {
   p2Immune = false;
 }
 
-// AI's turn
-function aiTurn() {
+document.getElementById("diceBtn").addEventListener("click", function () {
+  rollingSound.play();
   const num = Math.floor(Math.random() * 6) + 1;
   const diceElement = document.getElementById("dice");
 
@@ -143,37 +142,15 @@ function aiTurn() {
     diceElement.innerText = num;
     diceElement.classList.remove('rolling');
 
-    play('p2', 'p2sum', 55, num);
-    resetImmunity(); // Reset immunity after AI's turn
-
-    // Switch back to human player's turn
-    tog = 1;
-    document.getElementById('tog').innerText = "Red's Turn : ";
-  }, 1000); // Match the duration of the roll animation
-}
-
-// Human player's turn
-document.getElementById("diceBtn").addEventListener("click", function () {
-  if (tog % 2 !== 0) {
-    rollingSound.play();
-    const num = Math.floor(Math.random() * 6) + 1;
-    const diceElement = document.getElementById("dice");
-
-    // Add rolling animation
-    diceElement.classList.add('rolling');
-
-    // Wait for the animation to finish before updating the dice value
-    setTimeout(() => {
-      diceElement.innerText = num;
-      diceElement.classList.remove('rolling');
-
+    if (tog % 2 !== 0) {
+      document.getElementById('tog').innerText = "Yellow's Turn : ";
       play('p1', 'p1sum', 0, num);
-      resetImmunity(); // Reset immunity after human's turn
+    } else if (tog % 2 === 0) {
+      document.getElementById('tog').innerText = "Red's Turn : ";
+      play('p2', 'p2sum', 55, num);
+    }
 
-      // Switch to AI's turn
-      tog = 2;
-      document.getElementById('tog').innerText = "Yellow's (AI) Turn : ";
-      setTimeout(aiTurn, 1500); // Delay AI's turn for better UX
-    }, 1000); // Match the duration of the roll animation
-  }
+    resetImmunity(); // Reset immunity after each turn
+    tog = tog + 1;
+  }, 1000); // Match the duration of the roll animation
 });
