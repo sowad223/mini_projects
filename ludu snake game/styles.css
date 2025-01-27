@@ -1,191 +1,155 @@
-/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.cont {
+  display: grid;
+  width: 600px;
+  grid-template-columns: repeat(10, 1fr);
+  margin: 0px 0 0px 0;
+}
+
+.cont div {
+  width: 60px;
+  height: 60px;
+  border: 0.2px solid black;
+}
+
+#p1,
+#p2 {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  background-color: rgb(236, 82, 82);
+  position: relative;
+  border: 3px solid black;
+}
+
+#p1 {
+  position: relative;
+  top: 0px;
+  transition: all linear 0.5s;
+  left: -62px;
+  z-index: 2;
+}
+
+#p2 {
+  z-index: 2;
+  position: relative;
+  top: -55px;
+  left: -62px;
+  transition: all linear 0.5s;
+  background-color: rgb(243, 181, 46);
+}
+
+img {
+  position: relative;
+  top: -615px;
+  left: 8px;
+  margin: 0;
+  width: 615px;
+  height: 615px;
+}
+
+#diceCont {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 200px;
+  left: 120px;
+  font-size: 2rem;
+  z-index: 99;
+}
+
+#dice {
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 2rem;
+  display: grid;
+  place-items: center;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s ease-in-out;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 3D effect for dice */
+#dice::before,
+#dice::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid black;
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#dice::before {
+  transform: translateZ(-10px);
+}
+
+#dice::after {
+  transform: translateZ(10px);
+}
+
+/* Dice roll animation */
+@keyframes roll {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(720deg) rotateY(720deg);
+  }
+}
+
+.rolling {
+  animation: roll 1s ease-in-out;
+}
+
+#diceBtn {
+  z-index: 99;
+  padding: 5px;
+  cursor: pointer;
+  background-color: rgb(75, 140, 197);
+  border-radius: 5px;
+  width: 200px;
+}
+
+@media (max-width: 1250px) {
+  #diceCont {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    color: #333;
+    place-items: none;
+    top: 92vh;
+    left: 36vw;
+    border: 2px solid red;
   }
-  
-  .game-container {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    width: 100%;
+  #diceBtn {
+    width: 200px;
+    margin-left: 20px;
   }
-  
-  h1 {
-    font-size: 2.5rem;
-    color: #444;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Board Styles */
-  .board {
-    display: grid;
-    grid-template-columns: repeat(10, 40px);
-    grid-template-rows: repeat(10, 40px);
-    gap: 2px;
-    margin: 20px auto;
-    background: #fff;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .cell {
-    width: 40px;
-    height: 40px;
-    background: #f0f0f0;
+}
+
+@media (max-width: 1250px) {
+  #diceCont {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    color: #666;
-    transition: background 0.3s ease, transform 0.2s ease;
-    border-radius: 5px;
+    place-items: none;
+    top: 99vh;
+    left: 10vw;
   }
-  
-  .cell:hover {
-    background: #ddd;
-    transform: scale(1.1);
+  #diceBtn {
+    width: 200px;
+    margin-left: 20px;
   }
-  
-  /* Snakes and Ladders */
-  .cell[data-snake] {
-    background: #ff6f61;
-    color: white;
-    font-size: 16px;
-  }
-  
-  .cell[data-ladder] {
-    background: #6b5b95;
-    color: white;
-    font-size: 16px;
-  }
-  
-  /* Piece Styles */
-  .piece {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    position: absolute;
-    transition: all 0.5s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    animation: float 3s infinite ease-in-out;
-  }
-  
-  .piece[data-player="1"] {
-    background: linear-gradient(135deg, #ff6f61, #ffcccb);
-  }
-  
-  .piece[data-player="2"] {
-    background: linear-gradient(135deg, #6b5b95, #a2b9bc);
-  }
-  
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-  
-  /* Dice Styles */
-  .dice-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  #roll-dice {
-    padding: 10px 20px;
-    font-size: 16px;
-    background: linear-gradient(135deg, #6b5b95, #a2b9bc);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  #roll-dice:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  #dice-result {
-    font-size: 40px;
-    animation: spin 1s ease-in-out;
-    background: linear-gradient(135deg, #ff6f61, #ffcccb);
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
-  /* Winning Animation */
-  .winner {
-    animation: celebrate 2s infinite ease-in-out;
-  }
-  
-  @keyframes celebrate {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    .board {
-      grid-template-columns: repeat(10, 30px);
-      grid-template-rows: repeat(10, 30px);
-    }
-  
-    .cell {
-      width: 30px;
-      height: 30px;
-      font-size: 10px;
-    }
-  
-    .piece {
-      width: 20px;
-      height: 20px;
-    }
-  
-    h1 {
-      font-size: 2rem;
-    }
-  
-    #dice-result {
-      font-size: 30px;
-      width: 50px;
-      height: 50px;
-    }
-  }
+}

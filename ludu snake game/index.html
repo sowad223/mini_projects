@@ -1,130 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ludo Game with Snakes and Ladders</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="game.css">
 </head>
+
+
 <body>
-  <div class="game-container">
-    <h1>Ludo Game with Snakes and Ladders</h1>
-    <div class="board">
-      <!-- 10x10 Grid with 100 cells -->
-      <div class="cell" data-index="0"></div>
-      <div class="cell" data-index="1"></div>
-      <div class="cell" data-index="2"></div>
-      <div class="cell" data-index="3" data-ladder="22">🪜</div>
-      <div class="cell" data-index="4"></div>
-      <div class="cell" data-index="5"></div>
-      <div class="cell" data-index="6"></div>
-      <div class="cell" data-index="7" data-snake="14">🐍</div>
-      <div class="cell" data-index="8"></div>
-      <div class="cell" data-index="9"></div>
-      <div class="cell" data-index="10"></div>
-      <div class="cell" data-index="11" data-ladder="35">🪜</div>
-      <div class="cell" data-index="12"></div>
-      <div class="cell" data-index="13"></div>
-      <div class="cell" data-index="14" data-snake="7">🐍</div>
-      <div class="cell" data-index="15"></div>
-      <div class="cell" data-index="16"></div>
-      <div class="cell" data-index="17"></div>
-      <div class="cell" data-index="18"></div>
-      <div class="cell" data-index="19"></div>
-      <div class="cell" data-index="20"></div>
-      <div class="cell" data-index="21"></div>
-      <div class="cell" data-index="22"></div>
-      <div class="cell" data-index="23"></div>
-      <div class="cell" data-index="24"></div>
-      <div class="cell" data-index="25" data-ladder="44">🪜</div>
-      <div class="cell" data-index="26"></div>
-      <div class="cell" data-index="27" data-snake="10">🐍</div>
-      <div class="cell" data-index="28"></div>
-      <div class="cell" data-index="29"></div>
-      <div class="cell" data-index="30"></div>
-      <div class="cell" data-index="31"></div>
-      <div class="cell" data-index="32"></div>
-      <div class="cell" data-index="33"></div>
-      <div class="cell" data-index="34"></div>
-      <div class="cell" data-index="35"></div>
-      <div class="cell" data-index="36"></div>
-      <div class="cell" data-index="37"></div>
-      <div class="cell" data-index="38"></div>
-      <div class="cell" data-index="39"></div>
-      <div class="cell" data-index="40" data-ladder="59">🪜</div>
-      <div class="cell" data-index="41"></div>
-      <div class="cell" data-index="42"></div>
-      <div class="cell" data-index="43"></div>
-      <div class="cell" data-index="44"></div>
-      <div class="cell" data-index="45" data-snake="30">🐍</div>
-      <div class="cell" data-index="46"></div>
-      <div class="cell" data-index="47"></div>
-      <div class="cell" data-index="48"></div>
-      <div class="cell" data-index="49"></div>
-      <div class="cell" data-index="50"></div>
-      <div class="cell" data-index="51"></div>
-      <div class="cell" data-index="52" data-ladder="72">🪜</div>
-      <div class="cell" data-index="53"></div>
-      <div class="cell" data-index="54"></div>
-      <div class="cell" data-index="55"></div>
-      <div class="cell" data-index="56"></div>
-      <div class="cell" data-index="57"></div>
-      <div class="cell" data-index="58"></div>
-      <div class="cell" data-index="59"></div>
-      <div class="cell" data-index="60"></div>
-      <div class="cell" data-index="61"></div>
-      <div class="cell" data-index="62"></div>
-      <div class="cell" data-index="63"></div>
-      <div class="cell" data-index="64"></div>
-      <div class="cell" data-index="65"></div>
-      <div class="cell" data-index="66"></div>
-      <div class="cell" data-index="67" data-snake="50">🐍</div>
-      <div class="cell" data-index="68"></div>
-      <div class="cell" data-index="69"></div>
-      <div class="cell" data-index="70" data-ladder="89">🪜</div>
-      <div class="cell" data-index="71"></div>
-      <div class="cell" data-index="72"></div>
-      <div class="cell" data-index="73"></div>
-      <div class="cell" data-index="74"></div>
-      <div class="cell" data-index="75"></div>
-      <div class="cell" data-index="76"></div>
-      <div class="cell" data-index="77"></div>
-      <div class="cell" data-index="78"></div>
-      <div class="cell" data-index="79"></div>
-      <div class="cell" data-index="80" data-snake="60">🐍</div>
-      <div class="cell" data-index="81"></div>
-      <div class="cell" data-index="82"></div>
-      <div class="cell" data-index="83"></div>
-      <div class="cell" data-index="84"></div>
-      <div class="cell" data-index="85"></div>
-      <div class="cell" data-index="86"></div>
-      <div class="cell" data-index="87"></div>
-      <div class="cell" data-index="88"></div>
-      <div class="cell" data-index="89"></div>
-      <div class="cell" data-index="90"></div>
-      <div class="cell" data-index="91"></div>
-      <div class="cell" data-index="92"></div>
-      <div class="cell" data-index="93"></div>
-      <div class="cell" data-index="94"></div>
-      <div class="cell" data-index="95"></div>
-      <div class="cell" data-index="96"></div>
-      <div class="cell" data-index="97"></div>
-      <div class="cell" data-index="98"></div>
-      <div class="cell" data-index="99"></div>
+
+    <h1>Snakes and ladder</h1>
+
+    <div id="diceCont">
+        <p id="tog">Red's Turn : </p>
+        <p id="dice">0</p>
+        <button id="diceBtn">ROLL</button>
     </div>
-    <div class="pieces">
-      <div class="piece" data-player="1" data-position="0"></div>
-      <div class="piece" data-player="2" data-position="0"></div>
+
+
+    <div class="cont">
+
+
+
+        <div class="box" id="b100">
+
+
+        </div>
+        <div class="box" id="b99">
+
+        </div>
+        <div class="box" id="b98">
+
+        </div>
+        <div class="box" id="b97">
+
+        </div>
+        <div class="box" id="b96">
+
+        </div>
+        <div class="box" id="b95">
+
+        </div>
+        <div class="box" id="b94">
+
+        </div>
+        <div class="box" id="b93">
+
+        </div>
+        <div class="box" id="b92">
+
+        </div>
+        <div class="box" id="b91">
+
+        </div>
+        <div class="box" id="b81">
+
+        </div>
+        <div class="box" id="b82">
+
+        </div>
+        <div class="box" id="b83">
+
+        </div>
+        <div class="box" id="b84">
+
+        </div>
+        <div class="box" id="b85">
+
+        </div>
+        <div class="box" id="b86">
+
+        </div>
+        <div class="box" id="b87">
+
+        </div>
+        <div class="box" id="b88">
+
+        </div>
+        <div class="box" id="b89">
+
+        </div>
+        <div class="box" id="b90">
+
+        </div>
+        <div class="box" id="b80">
+
+        </div>
+        <div class="box" id="b79">
+
+        </div>
+        <div class="box" id="b78">
+
+        </div>
+        <div class="box" id="b77">
+
+        </div>
+        <div class="box" id="b76">
+
+        </div>
+        <div class="box" id="b75">
+
+        </div>
+        <div class="box" id="b74">
+
+        </div>
+        <div class="box" id="b73">
+
+        </div>
+        <div class="box" id="b72">
+
+        </div>
+        <div class="box" id="b71">
+
+        </div>
+        <div class="box" id="b61">
+
+        </div>
+        <div class="box" id="b62">
+
+        </div>
+        <div class="box" id="b63">
+
+        </div>
+        <div class="box" id="b64">
+
+        </div>
+        <div class="box" id="b65">
+
+        </div>
+        <div class="box" id="b66">
+
+        </div>
+        <div class="box" id="b67">
+
+        </div>
+        <div class="box" id="b68">
+
+        </div>
+        <div class="box" id="b69">
+
+        </div>
+        <div class="box" id="b70">
+
+        </div>
+        <div class="box" id="b60">
+
+        </div>
+        <div class="box" id="b59">
+
+        </div>
+        <div class="box" id="b58">
+
+        </div>
+        <div class="box" id="b57">
+
+        </div>
+        <div class="box" id="b56">
+
+        </div>
+        <div class="box" id="b55">
+
+        </div>
+        <div class="box" id="b54">
+
+        </div>
+        <div class="box" id="b53">
+
+        </div>
+        <div class="box" id="b52">
+
+        </div>
+        <div class="box" id="b51">
+
+        </div>
+        <div class="box" id="b41">
+
+        </div>
+        <div class="box" id="b42">
+
+        </div>
+        <div class="box" id="b43">
+
+        </div>
+        <div class="box" id="b44">
+
+        </div>
+        <div class="box" id="b45">
+
+        </div>
+        <div class="box" id="b46">
+
+        </div>
+        <div class="box" id="b47">
+
+        </div>
+        <div class="box" id="b48">
+
+        </div>
+        <div class="box" id="b49">
+
+        </div>
+        <div class="box" id="b50">
+
+        </div>
+        <div class="box" id="b40">
+
+        </div>
+        <div class="box" id="b39">
+
+        </div>
+        <div class="box" id="b38">
+
+        </div>
+        <div class="box" id="b37">
+
+        </div>
+        <div class="box" id="b36">
+
+        </div>
+        <div class="box" id="b35">
+
+        </div>
+        <div class="box" id="b34">
+
+        </div>
+        <div class="box" id="b33">
+
+        </div>
+        <div class="box" id="b32">
+
+        </div>
+        <div class="box" id="b31">
+
+        </div>
+        <div class="box" id="b21">
+
+        </div>
+        <div class="box" id="b22">
+
+        </div>
+        <div class="box" id="b23">
+
+        </div>
+        <div class="box" id="b24">
+
+        </div>
+        <div class="box" id="b25">
+
+        </div>
+        <div class="box" id="b26">
+
+        </div>
+        <div class="box" id="b27">
+
+        </div>
+        <div class="box" id="b28">
+
+        </div>
+        <div class="box" id="b29">
+
+        </div>
+        <div class="box" id="b30">
+
+        </div>
+        <div class="box" id="b20">
+
+        </div>
+        <div class="box" id="b19">
+
+        </div>
+        <div class="box" id="b18">
+
+        </div>
+        <div class="box" id="b17">
+
+        </div>
+        <div class="box" id="b16">
+
+        </div>
+        <div class="box" id="b15">
+
+        </div>
+        <div class="box" id="b14">
+
+        </div>
+        <div class="box" id="b13">
+
+        </div>
+        <div class="box" id="b12">
+
+        </div>
+        <div class="box" id="b11">
+
+        </div>
+        <div class="box" id="b01">
+
+            <p id="p1"></p>
+            <p id="p2"></p>
+
+        </div>
+        <div class="box" id="b02">
+
+        </div>
+        <div class="box" id="b03">
+
+        </div>
+        <div class="box" id="b04">
+
+        </div>
+        <div class="box" id="b05">
+
+        </div>
+        <div class="box" id="b06">
+
+        </div>
+        <div class="box" id="b07">
+
+        </div>
+        <div class="box" id="b08">
+
+        </div>
+        <div class="box" id="b09">
+
+        </div>
+        <div class="box" id="b10">
+
+        </div>
+
+
+
+
+
     </div>
-    <div class="dice-container">
-      <button id="roll-dice">Roll Dice</button>
-      <div id="dice-result">🎲</div>
-    </div>
-  </div>
-  <audio id="dice-sound" src="dice-roll.mp3"></audio>
-  <audio id="snake-sound" src="snake-hiss.mp3"></audio>
-  <audio id="ladder-sound" src="ladder-climb.mp3"></audio>
-  <audio id="win-sound" src="win-fanfare.mp3"></audio>
-  <script src="script.js"></script>
+
+    <img src="snake ladder.png" alt="">
+
+
+
 </body>
+<script src="game.js"></script>
+
 </html>

@@ -1,108 +1,179 @@
-const cells = document.querySelectorAll('.cell');
-const pieces = document.querySelectorAll('.piece');
-const rollDiceButton = document.getElementById('roll-dice');
-const diceResult = document.getElementById('dice-result');
+let tog = 1;
+let rollingSound = new Audio('rpg-dice-rolling-95182.mp3');
+let winSound = new Audio('winharpsichord-39642.mp3');
 
-// Define snakes and ladders
-const snakes = {
-  14: 7,
-  27: 10,
-  35: 22,
-  45: 30,
-  67: 50,
-  80: 60
+let p1sum = 0; // Human player
+let p2sum = 0; // AI player
+let p1Immune = false; // Track immunity for Player 1
+let p2Immune = false; // Track immunity for Player 2 (AI)
+
+// Define power-up squares
+const powerUps = {
+  5: { type: 'extraRoll', message: 'You get an extra roll!' },
+  25: { type: 'immunity', message: 'You are immune to snakes for the next turn!' },
+  50: { type: 'teleport', message: 'You are teleported to a random square!' },
 };
 
-const ladders = {
-  3: 22,
-  11: 35,
-  25: 44,
-  40: 59,
-  52: 72,
-  70: 89
+// Snakes and Ladders logic
+const jumps = {
+  1: 38, 4: 14, 8: 30, 21: 42, 28: 76, 32: 10, 36: 6, 48: 26, 50: 67, 62: 18, 71: 92, 80: 99, 88: 24, 95: 56, 97: 78
 };
 
-let currentPlayer = 1;
+// Function to move a player
+function play(player, psum, correction, num) {
+  let sum;
+  if (psum === 'p1sum') {
+    p1sum = p1sum + num;
 
-// Sound effects
-const diceSound = document.getElementById('dice-sound');
-const snakeSound = document.getElementById('snake-sound');
-const ladderSound = document.getElementById('ladder-sound');
-const winSound = document.getElementById('win-sound');
+    if (p1sum > 100) {
+      p1sum = p1sum - num;
+    }
 
-// Function to roll the dice
-function rollDice() {
-  return Math.floor(Math.random() * 6) + 1;
-}
+    // Check for snakes and ladders (unless immune)
+    if (!p1Immune && jumps[p1sum]) {
+      p1sum = jumps[p1sum];
+    }
 
-// Function to move the piece
-function movePiece(player, steps) {
-  const piece = document.querySelector(`.piece[data-player="${player}"]`);
-  let currentPosition = parseInt(piece.getAttribute('data-position'));
-  let newPosition = currentPosition + steps;
-
-  // Check if the new position is beyond the board
-  if (newPosition >= cells.length) {
-    newPosition = cells.length - 1;
+    sum = p1sum;
   }
 
-  // Check for snakes
-  if (snakes[newPosition]) {
-    newPosition = snakes[newPosition];
-    snakeSound.play();
-    alert(`Player ${player} got bitten by a snake!`);
+  if (psum === 'p2sum') {
+    p2sum = p2sum + num;
+
+    if (p2sum > 100) {
+      p2sum = p2sum - num;
+    }
+
+    // Check for snakes and ladders (unless immune)
+    if (!p2Immune && jumps[p2sum]) {
+      p2sum = jumps[p2sum];
+    }
+
+    sum = p2sum;
   }
 
-  // Check for ladders
-  if (ladders[newPosition]) {
-    newPosition = ladders[newPosition];
-    ladderSound.play();
-    alert(`Player ${player} climbed a ladder!`);
-  }
+  // Check for power-ups
+  checkPowerUp(player, sum);
 
-  // Update piece position
-  piece.setAttribute('data-position', newPosition);
-  const cell = document.querySelector(`.cell[data-index="${newPosition}"]`);
-  const cellRect = cell.getBoundingClientRect();
-  piece.style.left = `${cellRect.left + 5}px`;
-  piece.style.top = `${cellRect.top + 5}px`;
+  document.getElementById(`${player}`).style.transition = `linear all .5s`;
 
-  // Check for win condition
-  if (newPosition === cells.length - 1) {
+  if (sum < 10) {
+    document.getElementById(`${player}`).style.left = `${(sum - 1) * 62}px`;
+    document.getElementById(`${player}`).style.top = `${-0 * 62 - correction}px`;
+  } else if (sum === 100) {
     winSound.play();
-    alert(`Player ${player} wins!`);
-    resetGame();
+    if (player === 'p1') {
+      alert("Red Won !!");
+    } else if (player === 'p2') {
+      alert("Yellow (AI) Won !!");
+    }
+    location.reload();
+  } else {
+    const numarr = Array.from(String(sum));
+    const n1 = eval(numarr.shift());
+    const n2 = eval(numarr.pop());
+
+    if (n1 % 2 !== 0) {
+      if (n2 === 0) {
+        document.getElementById(`${player}`).style.left = `${9 * 62}px`;
+        document.getElementById(`${player}`).style.top = `${(-n1 + 1) * 62 - correction}px`;
+      } else {
+        document.getElementById(`${player}`).style.left = `${(9 - (n2 - 1)) * 62}px`;
+        document.getElementById(`${player}`).style.top = `${-n1 * 62 - correction}px`;
+      }
+    } else if (n1 % 2 === 0) {
+      if (n2 === 0) {
+        document.getElementById(`${player}`).style.left = `${0 * 62}px`;
+        document.getElementById(`${player}`).style.top = `${(-n1 + 1) * 62 - correction}px`;
+      } else {
+        document.getElementById(`${player}`).style.left = `${(n2 - 1) * 62}px`;
+        document.getElementById(`${player}`).style.top = `${-n1 * 62 - correction}px`;
+      }
+    }
   }
 }
 
-// Function to reset the game
-function resetGame() {
-  pieces.forEach(piece => {
-    piece.setAttribute('data-position', 0);
-    const cell = document.querySelector(`.cell[data-index="0"]`);
-    const cellRect = cell.getBoundingClientRect();
-    piece.style.left = `${cellRect.left + 5}px`;
-    piece.style.top = `${cellRect.top + 5}px`;
-  });
-  currentPlayer = 1;
+// Check for power-ups
+function checkPowerUp(player, square) {
+  if (powerUps[square]) {
+    const { type, message } = powerUps[square];
+    alert(message);
+
+    if (type === 'extraRoll') {
+      // Grant an extra roll
+      setTimeout(() => {
+        document.getElementById('diceBtn').click();
+      }, 1000);
+    } else if (type === 'immunity') {
+      // Grant immunity to snakes for the next turn
+      if (player === 'p1') {
+        p1Immune = true;
+      } else if (player === 'p2') {
+        p2Immune = true;
+      }
+    } else if (type === 'teleport') {
+      // Teleport to a random square
+      const randomSquare = Math.floor(Math.random() * 100) + 1;
+      if (player === 'p1') {
+        p1sum = randomSquare;
+      } else if (player === 'p2') {
+        p2sum = randomSquare;
+      }
+      play(player, player === 'p1' ? 'p1sum' : 'p2sum', player === 'p1' ? 0 : 55, 0);
+    }
+  }
 }
 
-// Event listener for rolling the dice
-rollDiceButton.addEventListener('click', () => {
-  const steps = rollDice();
-  diceSound.play();
-  diceResult.textContent = `🎲 ${steps}`;
-  diceResult.style.animation = 'spin 0.5s ease-in-out';
-  setTimeout(() => {
-    movePiece(currentPlayer, steps);
-    currentPlayer = currentPlayer === 1 ? 2 : 1;
-  }, 500);
-});
+// Reset immunity after each turn
+function resetImmunity() {
+  p1Immune = false;
+  p2Immune = false;
+}
 
-// Initialize piece positions
-pieces.forEach(piece => {
-  const cell = document.querySelector(`.cell[data-index="0"]`);
-  const cellRect = cell.getBoundingClientRect();
-  piece.style.left = `${cellRect.left + 5}px`;
-  piece.style.top = `${cellRect.top + 5}px`;
+// AI's turn
+function aiTurn() {
+  const num = Math.floor(Math.random() * 6) + 1;
+  const diceElement = document.getElementById("dice");
+
+  // Add rolling animation
+  diceElement.classList.add('rolling');
+
+  // Wait for the animation to finish before updating the dice value
+  setTimeout(() => {
+    diceElement.innerText = num;
+    diceElement.classList.remove('rolling');
+
+    play('p2', 'p2sum', 55, num);
+    resetImmunity(); // Reset immunity after AI's turn
+
+    // Switch back to human player's turn
+    tog = 1;
+    document.getElementById('tog').innerText = "Red's Turn : ";
+  }, 1000); // Match the duration of the roll animation
+}
+
+// Human player's turn
+document.getElementById("diceBtn").addEventListener("click", function () {
+  if (tog % 2 !== 0) {
+    rollingSound.play();
+    const num = Math.floor(Math.random() * 6) + 1;
+    const diceElement = document.getElementById("dice");
+
+    // Add rolling animation
+    diceElement.classList.add('rolling');
+
+    // Wait for the animation to finish before updating the dice value
+    setTimeout(() => {
+      diceElement.innerText = num;
+      diceElement.classList.remove('rolling');
+
+      play('p1', 'p1sum', 0, num);
+      resetImmunity(); // Reset immunity after human's turn
+
+      // Switch to AI's turn
+      tog = 2;
+      document.getElementById('tog').innerText = "Yellow's (AI) Turn : ";
+      setTimeout(aiTurn, 1500); // Delay AI's turn for better UX
+    }, 1000); // Match the duration of the roll animation
+  }
 });
